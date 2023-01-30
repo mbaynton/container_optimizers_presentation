@@ -1,0 +1,81 @@
+---
+title: "Container Optimizers Presentation"
+format: revealjs
+---
+
+## Containers! {auto-animate="true"}
+
+![](docker-container.jpg.webp){style="margin-left: auto; margin-right: auto; width: 29%"}
+
+::: {.incremental .fig-right}
+Mike Baynton<br /> Hosted Apps
+:::
+
+## Accelerating Containers! {auto-animate="true"}
+
+![](docker-container.jpg.webp){style="margin-left: 20%; width: 29%"} ![](rapid-rabit.jpg){style="margin-right: 20%; width: 30%"}
+
+## Containers
+
+::: incremental
+-   An easy way to get nearly any software up and running on nearly any computer.
+
+-   All you really need to know is the name of the **container image** you want to run.
+
+-   Instead of [installing R](https://rstudio-education.github.io/hopr/starting.html){preview-link="true"}, you could just run
+
+    ```{bash}
+    docker run -ti r-base
+    ```
+:::
+
+## Containers in the cloud
+
+In the cloud, a sea of compute needs to be paired with myriad software.
+
+::: incremental
+![](cpu.png){.absolute top="300" left="30" width="250"}
+
+![](cpu.png){.absolute .fragment autoslide="650" top="500" left="200" width="250"} ![](cpu.png){.absolute .fragment autoslide="650" top="310" left="550" width="250"}
+
+![](cpu.png){.absolute .fragment autoslide="650" top="225" right="30" width="250"}
+
+![](cloud-icons/apache.png){.absolute .fragment autoslide="650" top="605" left="230" width="190"} ![](cloud-icons/envoy-horizontal-color.png){.absolute .fragment autoslide="650" top="405" left="55" width="190"} ![](cloud-icons/mysql.png){.absolute .fragment autoslide="650" top="360" right="270" width="190"}
+
+![](cloud-icons/shiny.png){.absolute .fragment top="255" right="60" width="190"}
+:::
+
+## Posit hosted products do this too!
+
+-   posit.cloud
+
+-   shinyapps.io
+
+    -   Every application gets its own container image
+
+## But there's a problem...
+
+![](image_unpack.gif){fig-align="center"}
+
+Downloading and extracting the image can be slow.
+
+## Here's the cool part
+
+Containers are so ubiquitious, you can always bet people are solving hard problems for you to improve them.
+
+ 
+
+### Our heroes:
+
+::: incremental
+-   [stargz-snapshotter](https://github.com/containerd/stargz-snapshotter), the original
+-   [SOCI Snapshotter](https://github.com/awslabs/soci-snapshotter), AWS-sponsored fork
+:::
+
+## How do they work?
+
+They let the container start to run on the new computer before its image has been fully transferred.
+
+::: fragment
+![](mind-blown.png){fig-align="center"}
+:::
