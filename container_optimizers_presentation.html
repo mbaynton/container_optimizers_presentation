@@ -397,12 +397,12 @@
 <p>Mike Baynton<br> Hosted Apps</p>
 </div>
 </section>
-<section id="accelerating-containers" class="slide level2" data-auto-animate="true">
-<h2 data-id="quarto-animate-title">Accelerating Containers!</h2>
+<section id="optimized-containers" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Optimized Containers!</h2>
 <p><img data-src="docker-container.jpg.webp" style="margin-left: 20%; width: 29%"> <img data-src="rapid-rabit.jpg" style="margin-right: 20%; width: 30%"></p>
 </section>
-<section id="containers-1" class="slide level2">
-<h2>Containers</h2>
+<section id="wait-containers" class="slide level2">
+<h2>Wait, Containers?</h2>
 <div>
 <ul>
 <li class="fragment"><p>An easy way to get nearly any software up and running on nearly any computer.</p></li>
@@ -423,16 +423,6 @@
 <p><img data-src="cloud-icons/shiny.png" class="absolute fragment" style="top: 255px; right: 60px; width: 190px; "></p>
 </div>
 </section>
-<section id="posit-hosted-products-do-this-too" class="slide level2">
-<h2>Posit hosted products do this too!</h2>
-<ul>
-<li><p>posit.cloud</p></li>
-<li><p>shinyapps.io</p>
-<ul>
-<li>Every application gets its own container image</li>
-</ul></li>
-</ul>
-</section>
 <section id="but-theres-a-problem" class="slide level2">
 <h2>But there’s a problem…</h2>
 
@@ -441,7 +431,6 @@
 <section id="heres-the-cool-part" class="slide level2">
 <h2>Here’s the cool part</h2>
 <p>Containers are so ubiquitious, you can always bet people are solving hard problems for you to improve them.</p>
-<p>&nbsp;</p>
 <h3 id="our-heroes">Our heroes:</h3>
 <div>
 <ul>
@@ -452,7 +441,7 @@
 </section>
 <section id="how-do-they-work" class="slide level2">
 <h2>How do they work?</h2>
-<p>They let the container start to run on the new computer before its image has been fully transferred.</p>
+<p>They let the container start to run on the new computer before most of its image has downloaded.</p>
 <div class="fragment">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -460,10 +449,43 @@
 </figure>
 </div>
 </div>
+</section>
+<section id="a-little-deeper" class="slide level2">
+<h2>A little deeper</h2>
+<p>What if the software in the container tries to access a file that hasn’t been downloaded yet?</p>
+<ul>
+<li><p>A special filesystem pretends it knows all about that file already, but in fact it starts a download on-demand for the region of the container image where the requested file resides.</p></li>
+<li><p>From the software’s point of view, the data is all there, it’s just suspiciously <em>slow…</em></p></li>
+</ul>
+</section>
+<section>
+<section id="container-optimizers-and-posit" class="title-slide slide level1 center">
+<h1>Container optimizers and Posit</h1>
+<p>These optimizers are a little too early in development for us to use them right away, but…</p>
+</section>
+<section id="posits-hosted-team-products-all-use-containers" class="slide level2">
+<h2>Posit’s hosted team products all use containers!</h2>
+<ul>
+<li><p>shinyapps.io</p>
+<ul>
+<li>Every application gets its own container image</li>
+</ul></li>
+</ul>
+<p>We can’t always have every customer application image pre-downloaded to a server with free capacity to run it.</p>
+<p>The person trying to view the shiny app waits a long time in this case today.</p>
+</section>
+<section id="optimizing-the-optimizer" class="slide level2">
+<h2>Optimizing the optimizer</h2>
+<div>
+<ul>
+<li class="fragment"><p>Our hero, stargz-snapshotter, includes a tool to automatically profile a container and record which areas of the container image are accessed right away.</p></li>
+<li class="fragment"><p>This most critical data can be downloaded first, then the container is started. Remaining, less critical data continues to be downloaded in the background.</p></li>
+</ul>
+</div>
 <div class="footer footer-default">
 
 </div>
-</section>
+</section></section>
     </div>
   </div>
 

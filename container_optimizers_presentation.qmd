@@ -11,11 +11,11 @@ format: revealjs
 Mike Baynton<br /> Hosted Apps
 :::
 
-## Accelerating Containers! {auto-animate="true"}
+## Optimized Containers! {auto-animate="true"}
 
 ![](docker-container.jpg.webp){style="margin-left: 20%; width: 29%"} ![](rapid-rabit.jpg){style="margin-right: 20%; width: 30%"}
 
-## Containers
+## Wait, Containers?
 
 ::: incremental
 -   An easy way to get nearly any software up and running on nearly any computer.
@@ -45,14 +45,6 @@ In the cloud, a sea of compute needs to be paired with myriad software.
 ![](cloud-icons/shiny.png){.absolute .fragment top="255" right="60" width="190"}
 :::
 
-## Posit hosted products do this too!
-
--   posit.cloud
-
--   shinyapps.io
-
-    -   Every application gets its own container image
-
 ## But there's a problem...
 
 ![](image_unpack.gif){fig-align="center"}
@@ -63,8 +55,6 @@ Downloading and extracting the image can be slow.
 
 Containers are so ubiquitious, you can always bet people are solving hard problems for you to improve them.
 
- 
-
 ### Our heroes:
 
 ::: incremental
@@ -74,8 +64,44 @@ Containers are so ubiquitious, you can always bet people are solving hard proble
 
 ## How do they work?
 
-They let the container start to run on the new computer before its image has been fully transferred.
+They let the container start to run on the new computer before most of its image has downloaded.
 
 ::: fragment
 ![](mind-blown.png){fig-align="center"}
+:::
+
+## A little deeper
+
+What if the software in the container tries to access a file that hasn't been downloaded yet?
+
+-  A special filesystem pretends it knows all about that file already, but in fact
+   it starts a download on-demand for the region of the container image where the requested
+   file resides.
+
+-  From the software's point of view, the data is all there, it's just suspiciously *slow...*
+   
+# Container optimizers and Posit
+
+These optimizers are a little too early in development for us to use them right away,
+but...
+
+## Posit's hosted team products all use containers!
+
+-   shinyapps.io
+
+    -   Every application gets its own container image
+
+We can't always have every customer application image pre-downloaded to a
+server with free capacity to run it.
+
+The person trying to view the shiny app waits a long time in this case today.
+
+## Optimizing the optimizer
+
+::: incremental
+-  Our hero, stargz-snapshotter, includes a tool to automatically profile a container
+   and record which areas of the container image are accessed right away.
+
+-  This most critical data can be downloaded first, then the container is started.
+   Remaining, less critical data continues to be downloaded in the background.
 :::
